@@ -1,7 +1,7 @@
 {
-  "name": "my-notebook",
+  "name": "my-notebook-backend",
   "version": "1.0.0",
-  "description": "my notebook is a personal notebook on cloud",
+  "description": "my-notebook is a personal notebook on cloud",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,5 +11,8 @@
   "dependencies": {
     "express": "^4.19.2",
     "mongoose": "^8.4.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
