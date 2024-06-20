@@ -13,7 +13,7 @@ fetchuser = (req, res,next) => {
     // if token is invalid
     if (!token){
         // if token is invalid
-        res.status(401).send({error: "Please authenticate using a valid token"});
+        return res.status(401).send({error: "Please authenticate using a valid token"});
     }
 
     try {
