@@ -1,30 +1,139 @@
 const express = require('express');
 const User = require('../models/Users');
 const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const fetchuser = require('../middleware/fetchuser');
 
+// secret key for json web token
+const jwt_secret = process.env.JWT_SECRET_KEY;
+
+// create routes
 const router = express.Router();
 
-router.post('/',[
+// ROUTE 1:
+// create new user endpoint
+router.post('/createuser',[
+    // body data validation
     body('name','Enter a valid name').isLength({ min: 3 }),
     body('email','email is invalid!').isEmail(),
     body('password','Password must be atleast 8 characters').isLength({ min: 8 })
-], (req,res) => {
+], async (req,res) => {
+    // if there are errors, return bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    User.create({
+
+    // if any error occurs
+    try {
+    // find email alreay exists or not
+    let newUser = await User.findOne({email: req.body.email});
+
+    // if email already exists
+    if(newUser){
+        return res.status(400).json({error: 'email already exists!!'});
+    }
+    // create new user
+    // create salt using 'genSalt'
+    const salt = await bcrypt.genSalt(10);
+    // generate hash using user's password and salt
+    const securePassword = await bcrypt.hash(req.body.password, salt);
+    // pass the data to database to create new user
+    newUser = await User.create({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
-      }).then(user => { 
-        console.log("message: User created successfully!!");
-        res.json(user);
-    })
-      .catch(err => {
-        console.log("error: ",err);
-        res.json({error: "email already exists!!"});
-      });
+        password: securePassword
+      })
+
+    // create json web token
+    const data = {
+        user: {
+            // get user id
+            id: newUser.id
+        }
+    };
+    // create auth token using json web token with secret key and data 
+    const authToken = jwt.sign(data, jwt_secret);
+
+    // send auth token in response
+    // return success message
+     res.status(201).json({message: 'User created successfully!!',authToken: authToken});
+    }
+    catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
+// ROUTE 2:
+// login endpoint
+router.post('/login',[
+    body('email','email is invalid!').isEmail(),
+    body('password','Enter a valid password').exists()
+], async (req,res) => {
+    // if there are errors, return bad request and the errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {email,password} = req.body;
+    // if any error occurs
+    try {
+    // find email alreay exists or not
+    let loginUser = await User.findOne({email: email});
+
+    // if email already exists
+    if(!loginUser){
+        return res.status(401).json({error: 'email or pasword is incorrect!!'});
+    }
+
+    // compare password with hashed password in database using 'compare' method
+    let comparePassword = await bcrypt.compare(password, loginUser.password);
+
+    // if password is incorrect
+    if (!comparePassword) {
+        return res.status(401).json({error: 'email or pasword is incorrect!!'});
+    }
+
+    // create json web token
+    const data = {
+        user: {
+            // get user id
+            id: loginUser.id
+        }
+    }
+    // create auth token using json web token with secret key and data
+    const authToken = jwt.sign(data,jwt_secret);
+
+    // send auth token in response
+    // return success message
+     res.status(200).json({message: 'User login successfully!!',authToken: authToken});
+    }
+    catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
+// ROUTE 3:
+// get user data endpoint
+router.post('/getuser',fetchuser, async (req,res) => {
+    try {
+        // get user id from middleware
+        let userID = req.user.id;
+        // select all fields except password
+        const user = await User.findById(userID).select('-password');
+        // send user data
+        res.send(user);
+    }
+    catch (error){
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 module.exports = router;

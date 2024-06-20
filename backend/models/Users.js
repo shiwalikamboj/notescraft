@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// create schema for users model
 const userSchema = new mongoose.Schema({
     name:{
         type: String,
@@ -20,6 +21,4 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const User = mongoose.model('user',userSchema);
-User.createIndexes();
-module.exports = User;
+module.exports = mongoose.model('user',userSchema);

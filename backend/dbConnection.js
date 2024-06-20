@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+// database uri for mongodb connection
 const mongooseURI = 'mongodb://localhost:27017/my-notebook';
 
+// mongodb connection
 const dbConnect = async () => {
     try {
         mongoose.connect(mongooseURI);

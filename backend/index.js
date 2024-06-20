@@ -6,8 +6,8 @@ connectToMongo();
 
 // create express app
 const app = express();
-// set port to 5000
-const port = 5000;
+// get port number from environment variable
+const port = process.env.PORT;
 
 
 // create routes
@@ -15,7 +15,9 @@ app.get('/',(req,res) => {
     res.send('Server is up and running !!');
 });
 
+// middleware for json data comunication between frontend and backend
 app.use(express.json());
+// import routes from routes folder
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/notes', require('./routes/notes'));
 
