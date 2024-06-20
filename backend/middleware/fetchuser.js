@@ -1,4 +1,8 @@
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+dotenv.config();
 const jwt_secret = process.env.JWT_SECRET_KEY;
 
 fetchuser = (req, res,next) => {

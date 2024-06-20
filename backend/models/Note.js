@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 // create schema for notes model
 const noteSchema = new mongoose.Schema({
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
     title:{
         type: String,
         required: true
