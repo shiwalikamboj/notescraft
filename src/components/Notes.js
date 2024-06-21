@@ -6,8 +6,9 @@ function Notes() {
     const context = useContext(NoteContext);
     const { notes,getNotes } = context;
     useEffect(() => {
-        getNotes()
-    });
+        getNotes();
+        // eslint-disable-next-line
+    },[]);
   return (
     <div className="row my-3">
       <h2>Your Notes</h2>

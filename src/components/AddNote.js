@@ -1,9 +1,13 @@
 import React, { useContext, useState } from "react";
 import NoteContext from "../context/notes/noteContext";
+import AlertContext from "../context/alert/alertContext";
 
 function AddNote() {
   const context = useContext(NoteContext);
   const { addNote } = context;
+
+  const alertContext = useContext(AlertContext);
+  const { showAlert } = alertContext;
 
   const [note, setNote] = useState({
     title: "",
@@ -17,13 +21,18 @@ function AddNote() {
   const handleAddNote = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
-    setNote({ title: "", description: "", tag: "general" });
+    showAlert("Note Added Successfully", "success");
+    setNote({
+      title: "",
+      description: "",
+      tag: "general",
+    });
   };
   return (
     <div className="container my-3">
       <h2>Add a Note</h2>
       <form>
-        <div className="form-group">
+        <div className="form-group my-3">
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -45,22 +54,23 @@ function AddNote() {
             onChange={onChange}
           />
         </div>
-        <div className="form-check">
+        <div className="form-group my-3">
+          <label htmlFor="tag">Tag</label>
           <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
+            type="text"
+            className="form-control"
+            id="tag"
+            name="tag"
+            placeholder="Enter your custom tag"
+            onChange={onChange}
           />
-          <label className="form-check-label" htmlFor="exampleCheck1">
-            Check me out
-          </label>
         </div>
         <button
           type="submit"
           className="btn btn-primary"
           onClick={handleAddNote}
         >
-          Submit
+          Add Note
         </button>
       </form>
     </div>
