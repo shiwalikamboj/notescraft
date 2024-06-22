@@ -23,7 +23,7 @@ router.post('/createuser',[
     // if there are errors, return bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success: success, errors: errors.array() });
     }
 
     // if any error occurs
@@ -33,7 +33,7 @@ router.post('/createuser',[
 
     // if email already exists
     if(newUser){
-        return res.status(400).json({error: 'email already exists!!'});
+        return res.status(400).json({success: success, error: 'email already exists!!'});
     }
     // create new user
     // create salt using 'genSalt'
@@ -79,7 +79,7 @@ router.post('/login',[
     // if there are errors, return bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success: success, errors: errors.array() });
     }
 
     const {email,password} = req.body;
@@ -90,7 +90,7 @@ router.post('/login',[
 
     // if email already exists
     if(!loginUser){
-        return res.status(401).json({error: 'email or pasword is incorrect!!'});
+        return res.status(401).json({success: success, error: 'email or pasword is incorrect!!'});
     }
 
     // compare password with hashed password in database using 'compare' method
@@ -98,7 +98,7 @@ router.post('/login',[
 
     // if password is incorrect
     if (!comparePassword) {
-        return res.status(401).json({error: 'email or pasword is incorrect!!'});
+        return res.status(401).json({success: success, error: 'email or pasword is incorrect!!'});
     }
 
     // create json web token
