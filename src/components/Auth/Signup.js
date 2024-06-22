@@ -55,6 +55,7 @@ function Signup() {
             placeholder="Enter name"
             onChange={onChange}
             value={cred.name}
+            required
           />
         </div>
         <div className="form-group py-3">
@@ -68,6 +69,7 @@ function Signup() {
             placeholder="Enter email"
             onChange={onChange}
             value={cred.email}
+            required
           />
         </div>
         <div className="form-group">
@@ -80,6 +82,8 @@ function Signup() {
             placeholder="Password"
             onChange={onChange}
             value={cred.password}
+            minLength={8}
+            required
           />
         </div>
         <div className="form-group py-3">
@@ -92,6 +96,8 @@ function Signup() {
             placeholder="confirm password"
             onChange={onChange}
             value={cred.confirm_password}
+            minLength={8}
+            required
           />
         </div>
         <button type="submit" className="btn btn-primary">

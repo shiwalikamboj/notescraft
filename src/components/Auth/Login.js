@@ -20,6 +20,7 @@ function Login() {
               body: JSON.stringify({email: cred.email, password: cred.password}),
             });
             const serverResponse = await response.json();
+            console.log(serverResponse);
             
             if (serverResponse.success) {
                 // store token in local storage
@@ -47,6 +48,7 @@ function Login() {
             placeholder="Enter email"
             onChange={onChange}
             value={cred.email}
+            required
           />
         </div>
         <div className="form-group py-3">
@@ -59,6 +61,8 @@ function Login() {
             placeholder="Password"
             onChange={onChange}
             value={cred.password}
+            minLength={8}
+            required
           />
         </div>
         <button type="submit" className="btn btn-primary">
