@@ -82,7 +82,7 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
 
     // check if the requested userId and the note's userId are the same
     if (note.user.toString() !== req.user.id) {
-      return res.status(401).send({ error: "Not Allowed" });
+      return res.status(401).send({ error: "Not Authorized" });
     }
 
     // update the note
@@ -111,7 +111,7 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
 
     // check if the requested userId and the note's userId are the same
     if (note.user.toString() !== req.user.id) {
-      return res.status(401).send({ error: "Not Allowed" });
+      return res.status(401).send({ error: "Not Authorized" });
     }
 
     // delete the note
