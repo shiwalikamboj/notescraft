@@ -14,7 +14,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            let url = `http://localhost:5000/api/auth/login`;
+            let url = `${process.env.REACT_APP_AUTH_HOST}/login`;
             const response = await fetch(url, {
               method: "POST",
               headers: {

@@ -17,7 +17,7 @@ function Signup() {
           return showAlert("Passwords do not match", "danger");
         }
         try {
-            let url = `http://localhost:5000/api/auth/createuser`;
+            let url = `${process.env.REACT_APP_AUTH_HOST}/createuser`;
             const response = await fetch(url, {
               method: "POST",
               headers: {
@@ -34,7 +34,6 @@ function Signup() {
             if (serverResponse.success) {
                 // store token in local storage
                 localStorage.setItem("auth-token", serverResponse.authToken);
-                //showAlert("Account created successfully", "success");
                 navigate("/");
                 window.location.reload();
             }if (!serverResponse.success) {
@@ -57,7 +56,6 @@ function Signup() {
             className="form-control"
             id="name"
             name="name"
-            aria-describedby="emailHelp"
             placeholder="Enter name"
             onChange={onChange}
             value={cred.name}

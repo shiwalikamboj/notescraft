@@ -2,6 +2,7 @@ import "./App.css";
 import React from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
+import AboutUS from "./components/AboutUS";
 import About from "./components/About";
 import AlertState from "./context/alert/alertState";
 import Alert from "./components/Alert";
@@ -22,6 +23,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/aboutUs" element={<AboutUS />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
               </Routes>

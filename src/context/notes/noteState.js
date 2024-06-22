@@ -3,7 +3,7 @@ import NoteContext from "./noteContext";
 import AlertContext from "../alert/alertContext";
 
 const NoteState = (props) => {
-  const host = "http://localhost:5000";
+  const host = process.env.REACT_APP_NOTES_HOST;
   const authToken = localStorage.getItem("auth-token");
   const [notes, setNotes] = useState([]);
 
@@ -13,7 +13,7 @@ const NoteState = (props) => {
   // function to fetch all notes
   const getNotes = async () => {
     try {
-      let url = `${host}/api/notes/fetchnotes`;
+      let url = `${host}/fetchnotes`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -26,7 +26,7 @@ const NoteState = (props) => {
         showAlert("Fetched all notes", "info");
         setNotes(allNotes);
       }else {
-        showAlert(`Server Error: ${allNotes.error}`, "danger");
+        console.log("error: ", allNotes.error);
       }
     } catch (error) {
       showAlert(`Error: ${error.message}`, "danger");
@@ -37,7 +37,7 @@ const NoteState = (props) => {
   const addNote = async (title, description, tag) => {
     // api call
     try {
-      let url = `${host}/api/notes/addnote`;
+      let url = `${host}/addnote`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -65,7 +65,7 @@ const NoteState = (props) => {
   // function to delete note
   const deleteNote = async (id) => {
     try {
-      let url = `${host}/api/notes/deletenote/${id}`;
+      let url = `${host}/deletenote/${id}`;
       const response = await fetch(url, {
         method: "DELETE",
         headers: {
@@ -87,7 +87,7 @@ const NoteState = (props) => {
   // function to edit note
   const editNote = async (id, title, description, tag) => {
     try {
-      let url = `${host}/api/notes/updatenote/${id}`;
+      let url = `${host}/updatenote/${id}`;
       const response = await fetch(url, {
         method: "PUT",
         headers: {
