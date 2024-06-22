@@ -19,6 +19,7 @@ router.post('/createuser',[
     body('email','email is invalid!').isEmail(),
     body('password','Password must be atleast 8 characters').isLength({ min: 8 })
 ], async (req,res) => {
+    let success = false;
     // if there are errors, return bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -58,7 +59,8 @@ router.post('/createuser',[
 
     // send auth token in response
     // return success message
-     res.status(201).json({message: 'User created successfully!!',authToken: authToken});
+    success = true;
+     res.status(201).json({success: success, message: 'User created successfully!!',authToken: authToken});
     }
     catch (error) {
         console.error(error.message);
@@ -73,6 +75,7 @@ router.post('/login',[
     body('email','email is invalid!').isEmail(),
     body('password','Enter a valid password').exists()
 ], async (req,res) => {
+    let success = false;
     // if there are errors, return bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -110,7 +113,8 @@ router.post('/login',[
 
     // send auth token in response
     // return success message
-     res.status(200).json({message: 'User login successfully!!',authToken: authToken});
+    success = true;
+     res.status(200).json({success: success, message: 'User login successfully!!', authToken: authToken});
     }
     catch (error) {
         console.error(error.message);

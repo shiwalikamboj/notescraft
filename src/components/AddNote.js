@@ -8,7 +8,7 @@ function AddNote() {
   const [note, setNote] = useState({
     title: "",
     description: "",
-    tag: "general",
+    tag: "",
   });
 
   const onChange = (e) => {
@@ -16,7 +16,11 @@ function AddNote() {
   };
   const handleAddNote = (e) => {
     e.preventDefault();
+    if (note.tag === "") {
+      note.tag = "General";
+    }
     addNote(note.title, note.description, note.tag);
+    setNote({ title: "", description: "", tag: "" });
   };
   return (
     <div className="container my-3">
@@ -31,6 +35,7 @@ function AddNote() {
             name="title"
             placeholder="Enter title"
             onChange={onChange}
+            value={note.title}
           />
         </div>
         <div className="form-group">
@@ -42,6 +47,7 @@ function AddNote() {
             name="description"
             placeholder="Enter description"
             onChange={onChange}
+            value={note.description}
           />
         </div>
         <div className="form-group my-3">
@@ -53,9 +59,11 @@ function AddNote() {
             name="tag"
             placeholder="Enter your custom tag"
             onChange={onChange}
+            value={note.tag}
           />
         </div>
-        <button
+        <button 
+          disabled={note.title.length < 3 || note.description.length < 4}
           type="submit"
           className="btn btn-primary"
           onClick={handleAddNote}
