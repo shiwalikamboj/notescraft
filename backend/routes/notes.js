@@ -13,7 +13,7 @@ router.get("/fetchnotes", fetchuser, async (req, res) => {
     res.status(200).send(notes);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 
@@ -44,10 +44,10 @@ router.post(
       });
 
       const savedNote = await note.save();
-      res.status(200).send(savedNote);
+      res.status(201).send(savedNote);
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Internal Server Error");
+      res.status(500).send({ error: "Internal Server Error" });
     }
   }
 );
@@ -77,12 +77,12 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
     let note = await Note.findById(req.params.id);
     // if note does not exist
     if (!note) {
-      return res.status(404).send("Note Not Found");
+      return res.status(404).send({ error: "Note Not Found" });
     }
 
     // check if the requested userId and the note's userId are the same
     if (note.user.toString() !== req.user.id) {
-      return res.status(401).send("Not Allowed");
+      return res.status(401).send({ error: "Not Allowed" });
     }
 
     // update the note
@@ -91,10 +91,10 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
       { $set: newNote },
       { new: true }
     );
-    res.status(201).send(note);
+    res.status(200).send(note);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 
@@ -106,12 +106,12 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
     let note = await Note.findById(req.params.id);
     // if note does not exist
     if (!note) {
-      return res.status(404).send("Note Not Found");
+      return res.status(404).send({ error: "Note Not Found" });
     }
 
     // check if the requested userId and the note's userId are the same
     if (note.user.toString() !== req.user.id) {
-      return res.status(401).send("Not Allowed");
+      return res.status(401).send({ error: "Not Allowed" });
     }
 
     // delete the note
@@ -119,7 +119,7 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
     res.status(200).send({ message: "Note has been deleted", noteId: note.id });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 

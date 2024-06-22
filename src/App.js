@@ -1,5 +1,5 @@
 import "./App.css";
-import React from 'react';
+import React from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -11,20 +11,20 @@ import NoteState from "./context/notes/noteState";
 function App() {
   return (
     <>
-      <NoteState>
-        <Router>
-          <Navbar />
-          <AlertState>
+      <AlertState>
+        <NoteState>
+          <Router>
+            <Navbar />
             <Alert />
-          <div className="container">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
-          </div>
-          </AlertState>
-        </Router>
-      </NoteState>
+            <div className="container">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+              </Routes>
+            </div>
+          </Router>
+        </NoteState>
+      </AlertState>
     </>
   );
 }
