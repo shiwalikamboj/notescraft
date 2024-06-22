@@ -103,23 +103,18 @@ const NoteState = (props) => {
         }),
       });
       const serverResponse = await response.json();
-      console.log(response);
-      if (response.ok) {
-        let newNotes = JSON.parse(JSON.stringify(notes));
-        for (let index = 0; index < newNotes.length; index++) {
-          if (newNotes[index]._id === serverResponse._id) {
-            newNotes[index].title = serverResponse.title;
-            newNotes[index].description = serverResponse.description;
-            newNotes[index].tag = serverResponse.tag;
-            break;
-          }
+
+      let newNotes = JSON.parse(JSON.stringify(notes));
+      for (let index = 0; index < newNotes.length; index++) {
+        if (newNotes[index]._id === serverResponse._id) {
+          newNotes[index].title = serverResponse.title;
+          newNotes[index].description = serverResponse.description;
+          newNotes[index].tag = serverResponse.tag;
+          break;
         }
-        setNotes(newNotes);
-        showAlert("Note Edited Successfully", "warning");
       }
-      else {
-        showAlert(`Server Error: ${serverResponse.errors[0].msg}`, "danger");
-      }
+      setNotes(newNotes);
+      showAlert("Note Edited Successfully", "warning");
     } catch (error) {
       showAlert(`Error: ${error.message}`, "danger");
     }
