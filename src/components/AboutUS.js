@@ -4,7 +4,7 @@ import './AboutUS.css'; // Import the CSS file
 function AboutUS() {
   const [userData, setUserData] = useState(null);
   const [pinnedRepos, setPinnedRepos] = useState([]);
-  const username = 'the-zoomeee';
+  const username = process.env.REACT_APP_USER_NAME; 
   const token = process.env.REACT_APP_GITHUB_TOKEN ; // Replace with your GitHub token
 
   useEffect(() => {
