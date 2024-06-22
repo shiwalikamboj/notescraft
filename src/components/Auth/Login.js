@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate  } from "react-router-dom";
+import AlertContext from "../../context/alert/alertContext";
 
 function Login() {
     let navigate = useNavigate();
+    const alertContext = useContext(AlertContext);
+    const { showAlert } = alertContext;
     const [cred,setCred] = useState({email:"",password:""});
     const onChange = (e) => {
         setCred({ ...cred, [e.target.name]: e.target.value });
@@ -20,15 +23,19 @@ function Login() {
               body: JSON.stringify({email: cred.email, password: cred.password}),
             });
             const serverResponse = await response.json();
-            console.log(serverResponse);
             
             if (serverResponse.success) {
                 // store token in local storage
                 localStorage.setItem("auth-token", serverResponse.authToken);
                 navigate("/");
+                window.location.reload();
+                //showAlert("Login Successful", "success");
+            }
+            else if (!serverResponse.success) {
+                showAlert(serverResponse.error, "danger");
             }
           } catch (error) {
-            console.log(error.message);
+            showAlert(`Error: ${error.message}`, "danger");
           }
     }
   return (

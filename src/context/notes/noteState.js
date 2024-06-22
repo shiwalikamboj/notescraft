@@ -4,9 +4,7 @@ import AlertContext from "../alert/alertContext";
 
 const NoteState = (props) => {
   const host = "http://localhost:5000";
-  const authToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY3MzEzNDUxZGVjZmRhOTFjMDc3NzA2In0sImlhdCI6MTcxODg2MjE0NX0.VEfpCbCDKpptgcUpDGQ9wmFpadvP6lZ0vtxLFB75iIY";
-
+  const authToken = localStorage.getItem("auth-token");
   const [notes, setNotes] = useState([]);
 
   const alertContext = useContext(AlertContext);

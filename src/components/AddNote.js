@@ -57,7 +57,7 @@ function AddNote() {
             className="form-control"
             id="tag"
             name="tag"
-            placeholder="Enter your custom tag"
+            placeholder="Enter your custom tag (default: General)"
             onChange={onChange}
             value={note.tag}
           />

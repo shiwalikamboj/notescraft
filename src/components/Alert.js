@@ -6,6 +6,7 @@ export default function Alert() {
   const context = useContext(AlertContext);
   const {alert} = context;
     const capitalize = (word)=>{
+      if (word === "danger") return "Denied";
         const lower = word.toLowerCase();
         return lower.charAt(0).toUpperCase() + lower.slice(1);
     }

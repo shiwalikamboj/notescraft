@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate  } from "react-router-dom";
+import AlertContext from "../../context/alert/alertContext";
 
 function Signup() {
     let navigate = useNavigate();
+    const alertContext = useContext(AlertContext);
+    const { showAlert } = alertContext;
     const [cred,setCred] = useState({name:"",email:"",password:"",confirm_password:""});
     const onChange = (e) => {
         setCred({ ...cred, [e.target.name]: e.target.value });
@@ -11,7 +14,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (cred.password !== cred.confirm_password) {
-            return alert("passwords do not match");
+          return showAlert("Passwords do not match", "danger");
         }
         try {
             let url = `http://localhost:5000/api/auth/createuser`;
@@ -27,15 +30,18 @@ function Signup() {
               }),
             });
             const serverResponse = await response.json();
-            console.log(serverResponse);
             
             if (serverResponse.success) {
                 // store token in local storage
                 localStorage.setItem("auth-token", serverResponse.authToken);
+                //showAlert("Account created successfully", "success");
                 navigate("/");
-            }
+                window.location.reload();
+            }if (!serverResponse.success) {
+              showAlert(serverResponse.error, "danger");
+          }
           } catch (error) {
-            console.log(error.message);
+            showAlert(`Error: ${error.message}`, "danger");
           }
     }
   return (
