@@ -1,16 +1,16 @@
 import "./App.css";
 import React from "react";
 import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import AboutUS from "./components/AboutUS";
-import About from "./components/About";
+import Home from "./pages/Home";
+import AboutUS from "./pages/AboutUS";
+import About from "./pages/About";
 import AlertState from "./context/alert/alertState";
 import Alert from "./components/Alert";
 import Login from "./components/Auth/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NoteState from "./context/notes/noteState";
 import Signup from "./components/Auth/Signup";
-import Settings from "./components/Settings"; // Import the Settings component
+import Settings from "./pages/Settings"; // Import the Settings component
 import ProtectedRoute from "./components/ProtectedRoute"; // Import the ProtectedRoute component
 
 function App() {

@@ -3,6 +3,7 @@ import { FaTrash, FaUserMinus, FaKey } from 'react-icons/fa'; // Import icons
 import NoteContext from '../context/notes/noteContext';
 
 const Settings = () => {
+  document.title = "Settings - My Noteboot";
   const noteContext = useContext(NoteContext);
   const { deleteAllNotes, deleteAccount, updatePassword } = noteContext;
 
