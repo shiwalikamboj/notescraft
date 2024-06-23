@@ -13,7 +13,7 @@ function Navbar() {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-secondary">
       <div className="container-fluid">
         <a className="navbar-brand" href="/">My Notebook</a>
         <button
@@ -41,18 +41,18 @@ function Navbar() {
           </ul>
           {!localStorage.getItem("auth-token") ? (
             <div>
-              <Link type="button" to="/login" className="btn btn-outline-primary mx-1">Login</Link>
-              <Link type="button" to="/signup" className="btn btn-outline-primary mx-1">Signup</Link>
+              <Link type="button" to="/login" className="btn btn-outline-light mx-1">Login</Link>
+              <Link type="button" to="/signup" className="btn btn-outline-light mx-1">Signup</Link>
             </div>
           ) : (
             <div className="d-flex align-items-center">
-              <Link to="/settings" className="btn btn-outline-primary mx-1" aria-label="Settings">
+              <Link to="/settings" className="btn btn-outline-light mx-1" aria-label="Settings">
                 <FaCog />
               </Link>
               <button
                 type="button"
                 onClick={handleLogout}
-                className="btn btn-outline-primary mx-1"
+                className="btn btn-danger mx-1"
                 aria-label="Logout"
               >
                 Logout

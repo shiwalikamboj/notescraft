@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import NoteContext from "../context/notes/noteContext";
 import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Notes() {
   let navigate = useNavigate();
@@ -10,8 +10,8 @@ function Notes() {
   const { notes, getNotes, editNote } = context;
   useEffect(() => {
     if (localStorage.getItem("auth-token")) {
-    getNotes();
-    }else {
+      getNotes();
+    } else {
       navigate("/login");
     }
     // eslint-disable-next-line
@@ -99,14 +99,15 @@ function Notes() {
                   </div>
                   <div className="form-group">
                     <label htmlFor="edescription">Description</label>
-                    <input
-                      type="text"
+                    <textarea
                       className="form-control"
                       id="edescription"
                       name="edescription"
                       placeholder="Enter description"
                       onChange={onChange}
                       value={note.edescription}
+                      rows={5}
+                      style={{ resize: "none" }}
                     />
                   </div>
                   <div className="form-group my-3">
@@ -149,7 +150,7 @@ function Notes() {
         <h2>Your Notes</h2>
         <div className="container mx-3 my-3">
           <h3 className="text-center">
-          {notes.length === 0 && "No notes to display!!"}
+            {notes.length === 0 && "No notes to display!!"}
           </h3>
         </div>
         {notes.map((note) => {

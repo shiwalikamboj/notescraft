@@ -22,6 +22,7 @@ function AddNote() {
     addNote(note.title, note.description, note.tag);
     setNote({ title: "", description: "", tag: "" });
   };
+
   return (
     <div className="container my-3">
       <h2>Add a Note</h2>
@@ -40,14 +41,15 @@ function AddNote() {
         </div>
         <div className="form-group">
           <label htmlFor="description">Description</label>
-          <input
-            type="text"
+          <textarea
             className="form-control"
             id="description"
             name="description"
             placeholder="Enter description"
             onChange={onChange}
             value={note.description}
+            rows={10}
+            style={{ resize: "none" }}
           />
         </div>
         <div className="form-group my-3">
@@ -62,7 +64,7 @@ function AddNote() {
             value={note.tag}
           />
         </div>
-        <button 
+        <button
           disabled={note.title.length < 3 || note.description.length < 4}
           type="submit"
           className="btn btn-primary"
