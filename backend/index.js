@@ -31,5 +31,5 @@ app.use('/api/notes', require('./routes/notes'));
 
 // starting the express server
 app.listen(port, ()=> {
-    console.log(`my-notebook backend listening at http://localhost:${port}`);
+    console.log(`MyNotebok backend listening at http://localhost:${port}`);
 });
