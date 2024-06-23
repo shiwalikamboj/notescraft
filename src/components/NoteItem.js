@@ -2,7 +2,9 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import NoteContext from "../context/notes/noteContext";
 
 function truncateText(text, maxLength) {
-  return text.length > maxLength ? text.substring(0, maxLength - 3) + "..." : text;
+  return text.length > maxLength
+    ? text.substring(0, maxLength - 3) + "..."
+    : text;
 }
 
 function NoteItem({ note, updateNote }) {
@@ -48,7 +50,11 @@ function NoteItem({ note, updateNote }) {
           <p className="card-text">{truncateText(note.description, 58)}</p>
           <div style={tagStyle}>{note.tag}</div>
           <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-outline-secondary" onClick={openModal}>
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={openModal}
+            >
               View Note
             </button>
             <div>
@@ -72,26 +78,38 @@ function NoteItem({ note, updateNote }) {
       </div>
 
       {showModal && (
-        <div className="modal fade show" style={{ display: "block" }} tabIndex="-1" role="dialog">
+        <div
+          className="modal fade show"
+          style={{ display: "block" }}
+          tabIndex="-1"
+          role="dialog"
+        >
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">{note.title}</h5>
-                <button type="button" className="btn-close" onClick={closeModal}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={closeModal}
+                ></button>
               </div>
               <div
                 className="modal-body"
                 ref={modalBodyRef}
                 style={{ overflowWrap: "break-word", whiteSpace: "pre-wrap" }}
               >
-                {/* Apply overflowWrap and whiteSpace styles */}
                 {descriptionText}
               </div>
               <div className="modal-header">
                 <h5 className="modal-title">{note.tag}</h5>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeModal}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={closeModal}
+                >
                   Close
                 </button>
               </div>
