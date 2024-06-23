@@ -163,9 +163,33 @@ const deleteAccount = async () => {
   }
 };
 
+
+ // function to update password
+ const updatePassword = async (opassword, npassword) => {
+  try {
+    let url = `${process.env.REACT_APP_AUTH_HOST}/updatepassword`;
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": authToken,
+      },
+      body: JSON.stringify({ opassword, npassword }),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      showAlert("Password updated successfully", "success");
+    } else {
+      showAlert(data.error || "Failed to update password", "danger");
+    }
+  } catch (error) {
+    showAlert(`Error: ${error.message}`, "danger");
+  }
+};
+
   return (
     <NoteContext.Provider
-      value={{ notes, addNote, deleteNote, editNote, getNotes, deleteAllNotes , deleteAccount }}
+      value={{ notes, addNote, deleteNote, editNote, getNotes, deleteAllNotes , deleteAccount , updatePassword }}
     >
       {props.children}
     </NoteContext.Provider>

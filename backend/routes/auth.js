@@ -17,7 +17,20 @@ const router = express.Router();
 router.post('/createuser',[
     // body data validation
     body('name','Enter a valid name').isLength({ min: 3 }),
-    body('email','email is invalid!').isEmail(),
+    body('email','Enter a valid email').isEmail().custom(async (value, { req }) => {
+        // Check if email is from a valid domain (e.g., gmail.com)
+        const validDomains = ['gmail.com', 'yahoo.com', 'hotmail.com']; // Add more valid domains if needed
+        const domain = value.split('@')[1];
+        if (!validDomains.includes(domain)) {
+            throw new Error('Use a valid email domain');
+        }
+        // Check if email already exists
+        let user = await User.findOne({ email: value });
+        if (user) {
+            throw new Error('Email already exists');
+        }
+        return true;
+    }),
     body('password','Password must be atleast 8 characters').isLength({ min: 8 })
 ], async (req,res) => {
     let success = false;
@@ -29,20 +42,13 @@ router.post('/createuser',[
 
     // if any error occurs
     try {
-    // find email alreay exists or not
-    let newUser = await User.findOne({email: req.body.email});
-
-    // if email already exists
-    if(newUser){
-        return res.status(400).json({success: success, error: 'email already exists!!'});
-    }
     // create new user
     // create salt using 'genSalt'
     const salt = await bcrypt.genSalt(10);
     // generate hash using user's password and salt
     const securePassword = await bcrypt.hash(req.body.password, salt);
     // pass the data to database to create new user
-    newUser = await User.create({
+    let newUser = await User.create({
         name: req.body.name,
         email: req.body.email,
         password: securePassword
@@ -157,6 +163,51 @@ router.delete('/deleteaccount', fetchuser, async (req, res) => {
       res.status(500).send({ success: false, error: 'Internal Server Error' });
     }
   });
+
+
+  // ROUTE 5:
+// Update user password
+router.put('/updatepassword', fetchuser, [
+    // body data validation
+    body('opassword', 'Enter your old password').exists(),
+    body('npassword', 'New password must be at least 8 characters').isLength({ min: 8 }),
+  ], async (req, res) => {
+    let success = false;
+    // if there are errors, return bad request and the errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: success, errors: errors.array() });
+    }
+  
+    const { opassword, npassword } = req.body;
+  
+    try {
+      // Fetch the user by ID
+      let user = await User.findById(req.user.id);
+  
+      // Check if old password matches the stored hashed password
+      const isMatch = await bcrypt.compare(opassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ success: success, error: 'Invalid old password' });
+      }
+  
+      // Hash the new password
+      const salt = await bcrypt.genSalt(10);
+      const newPassword = await bcrypt.hash(npassword, salt);
+  
+      // Update the user's password
+      user.password = newPassword;
+      await user.save();
+  
+      success = true;
+      res.status(200).json({ success: success, message: 'Password updated successfully' });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+
+  
   
 
 
