@@ -47,6 +47,18 @@ const Settings = () => {
         <div className='table-responsive'>
           <table className='table'>
             <tbody>
+            <tr>
+                <td>Change Password:</td>
+                <td>
+                  <button
+                    className='btn btn-warning'
+                    data-bs-toggle='modal'
+                    data-bs-target='#changePasswordModal'
+                  >
+                    <FaKey className='me-1' /> Change Password
+                  </button>
+                </td>
+              </tr>
               <tr>
                 <td>Delete my all notes:</td>
                 <td>
@@ -60,18 +72,6 @@ const Settings = () => {
                 <td>
                   <button className='btn btn-danger' onClick={handleDeleteAccount}>
                     <FaUserMinus className='me-1' /> Delete Account
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>Change Password:</td>
-                <td>
-                  <button
-                    className='btn btn-warning'
-                    data-bs-toggle='modal'
-                    data-bs-target='#changePasswordModal'
-                  >
-                    <FaKey className='me-1' /> Change Password
                   </button>
                 </td>
               </tr>
