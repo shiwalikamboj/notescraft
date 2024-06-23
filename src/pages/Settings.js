@@ -3,7 +3,7 @@ import { FaTrash, FaUserMinus, FaKey } from 'react-icons/fa'; // Import icons
 import NoteContext from '../context/notes/noteContext';
 
 const Settings = () => {
-  document.title = "Settings - My Noteboot";
+  document.title = "MyNottebok - Settings";
   const noteContext = useContext(NoteContext);
   const { deleteAllNotes, deleteAccount, updatePassword } = noteContext;
 
@@ -69,7 +69,7 @@ const Settings = () => {
                 </td>
               </tr>
               <tr>
-                <td>Not need My Notebook anymore:</td>
+                <td>Not need MyNottebok anymore:</td>
                 <td>
                   <button className='btn btn-danger' onClick={handleDeleteAccount}>
                     <FaUserMinus className='me-1' /> Delete Account
