@@ -123,4 +123,17 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
   }
 });
 
+// ROUTE 5:
+// login: delete all notes for a user
+router.delete("/deleteallnotes", fetchuser, async (req, res) => {
+  try {
+    // Delete all notes for the authenticated user
+    await Note.deleteMany({ user: req.user.id });
+    res.status(200).send({ message: "All notes have been deleted successfully" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = router;

@@ -118,9 +118,54 @@ const NoteState = (props) => {
     }
   };
 
+
+  // function to delete all notes
+const deleteAllNotes = async () => {
+  try {
+    let url = `${host}/deleteallnotes`;
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": authToken,
+      },
+    });
+    const deletedNotes = await response.json();
+    console.log(deletedNotes);
+    setNotes([]);
+    showAlert("All Notes Deleted Successfully", "danger");
+  } catch (error) {
+    showAlert(`Error: ${error.message}`, "danger");
+  }
+};
+
+// function to delete user account along with all notes
+const deleteAccount = async () => {
+  try {
+    let url = `${process.env.REACT_APP_AUTH_HOST}/deleteaccount`;
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": authToken,
+      },
+    });
+    const data = await response.json();
+    if (response.ok) {
+      // Redirect to login or homepage after successful deletion
+      window.location.href = '/login'; // Assuming '/login' is your login route
+      localStorage.removeItem("auth-token");
+    } else {
+      showAlert(data.error || "Failed to delete account", "danger");
+    }
+  } catch (error) {
+    showAlert(`Error: ${error.message}`, "danger");
+  }
+};
+
   return (
     <NoteContext.Provider
-      value={{ notes, addNote, deleteNote, editNote, getNotes }}
+      value={{ notes, addNote, deleteNote, editNote, getNotes, deleteAllNotes , deleteAccount }}
     >
       {props.children}
     </NoteContext.Provider>

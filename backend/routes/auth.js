@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/Users');
+const Note = require('../models/Note');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -139,5 +140,24 @@ router.post('/getuser',fetchuser, async (req,res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+// ROUTE 4:
+// delete user account along with all notes
+router.delete('/deleteaccount', fetchuser, async (req, res) => {
+    try {
+      // Delete all notes of the authenticated user
+      await Note.deleteMany({ user: req.user.id });
+  
+      // Delete the user account
+      await User.findByIdAndDelete(req.user.id);
+  
+      res.status(200).send({ success: true, message: 'User account and all associated notes have been deleted successfully' });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send({ success: false, error: 'Internal Server Error' });
+    }
+  });
+  
+
 
 module.exports = router;
