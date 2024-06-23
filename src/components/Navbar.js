@@ -13,9 +13,9 @@ function Navbar() {
   }
 
   return (
-    <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-secondary">
+    <nav className="navbar sticky-top navbar-expand-lg navbar-dark" style={{ backgroundColor: "#53b0b3" }}>
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">My Notebook</a>
+        <a className="navbar-brand" href="/" style={{ fontWeight: "bold" }}>MyNottebok</a>
         <button
           className="navbar-toggler"
           type="button"
