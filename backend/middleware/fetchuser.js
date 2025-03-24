@@ -1,33 +1,34 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
 // Load environment variables from .env file
 dotenv.config();
+
 const jwt_secret = process.env.JWT_SECRET_KEY;
 
-fetchuser = (req, res,next) => {
-    // get the user from the jwt token and add id to req object
+const fetchuser = (req, res, next) => {
+  // Get the user from the JWT token and add ID to req object
 
-    // get token fron header 'auth-token'
-    const token = req.header('auth-token');
-    // if token is invalid
-    if (!token){
-        // if token is invalid
-        return res.status(401).send({error: "Please authenticate using a valid token"});
-    }
+  // Get token from header 'auth-token'
+  const token = req.header("auth-token");
 
-    try {
-        // verify received token
-        const data = jwt.verify(token, jwt_secret);
-        // add user id to req object 
-        req.user = data.user;
-        // call next middleware 
-        next();
-    }
-    catch (error){
-        // if token is invalid
-        res.status(401).send({error: "Please authenticate using a valid token"});
-    }
-}
+  // If token is missing
+  if (!token) {
+    return res
+      .status(401)
+      .json({ error: "Please authenticate using a valid token" });
+  }
+
+  try {
+    // Verify the received token
+    const data = jwt.verify(token, jwt_secret);
+    // Add user ID to request object
+    req.user = data.user;
+    // Call next middleware
+    next();
+  } catch (error) {
+    res.status(401).json({ error: "Please authenticate using a valid token" });
+  }
+};
 
 module.exports = fetchuser;
